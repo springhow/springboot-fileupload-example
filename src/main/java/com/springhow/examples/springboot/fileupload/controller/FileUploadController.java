@@ -17,8 +17,26 @@ public class FileUploadController {
 
     @RequestMapping(value = "/file-upload", method = RequestMethod.POST)
     @ResponseBody
-    public String uploadFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public String uploadFile(@RequestParam("myFile") MultipartFile multipartFile) throws IOException {
         multipartFile.transferTo(new File("C:\\data\\test\\" + multipartFile.getOriginalFilename()));
+        return "success";
+    }
+
+
+    @RequestMapping(value = "/two-file-upload", method = RequestMethod.POST)
+    @ResponseBody
+    public String uploadTwoFile(@RequestParam("myFile") MultipartFile multipartFile, @RequestParam("myOtherFile") MultipartFile otherMultipartFile) throws IOException {
+        multipartFile.transferTo(new File("C:\\data\\test\\" + multipartFile.getOriginalFilename()));
+        otherMultipartFile.transferTo(new File("C:\\data\\test\\" + otherMultipartFile.getOriginalFilename()));
+        return "success";
+    }
+
+    @RequestMapping(value = "/multiple-file-upload", method = RequestMethod.POST)
+    @ResponseBody
+    public String uploadMultipleFiles(@RequestParam("myFiles") MultipartFile[] multipartFiles) throws IOException {
+        for (MultipartFile multipartFile : multipartFiles) {
+            multipartFile.transferTo(new File("C:\\data\\test\\" + multipartFile.getOriginalFilename()));
+        }
         return "success";
     }
 }
